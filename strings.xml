@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Timer</string>
+    <string name="clock">Clock</string>
+    <string name="stopwatch">Stopwatch</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="reset">Reset</string>
+    <string name="theme">Theme :- </string>
+    <string name="dark">Dark</string>
+    <string name="light">Light</string>
+    <string name="time">Time</string>
+</resources>
