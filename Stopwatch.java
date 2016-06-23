@@ -2,6 +2,7 @@ package com.example.dg119.timer;
 
 import android.content.Intent;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,13 +10,13 @@ import android.widget.TextView;
 
 public class Stopwatch extends AppCompatActivity {
     TextView time;
-    public int miliSeconds = 0;
+    public long seconds = 0;
     public boolean running;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (savedInstanceState != null){
-            miliSeconds = savedInstanceState.getInt("miliSeconds");
+            seconds = savedInstanceState.getLong("seconds");
             running = savedInstanceState.getBoolean("running");
         }
         super.onCreate(savedInstanceState);
@@ -26,7 +27,7 @@ public class Stopwatch extends AppCompatActivity {
     public void start(View view){running = true;}
     public void stop(View view){running = false;}
     public void reset(View view){running = false;
-                                 miliSeconds = 0;}
+                                 seconds = Long.valueOf(0);}
 
     private void runTimer(){
         time = (TextView) findViewById(R.id.timerTV);
@@ -34,16 +35,15 @@ public class Stopwatch extends AppCompatActivity {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                int milisecs = miliSeconds%1000;
-                int seconds = (miliSeconds/1000)%60;
-                int minutes = (seconds%3600)/60;
-                int hours = minutes/60;
-                String timerString = String.format("%d:%02d:%02d:%03d",hours,minutes,seconds,milisecs);
+                long secs = seconds%60;
+                long minutes = (seconds%3600)/60;
+                long hours = seconds/3600;
+                String timerString = String.format("%d:%02d:%02d",hours,minutes,secs);
                 time.setText(timerString);
                 if(running){
-                    miliSeconds++;
+                    seconds++;
                 }
-                handler.postDelayed(this,1);
+                handler.postDelayed(this,1000);
             }
         });
     }
@@ -51,6 +51,6 @@ public class Stopwatch extends AppCompatActivity {
     @Override
     public void onSaveInstanceState(Bundle bundle){
         bundle.putBoolean("running", running);
-        bundle.putInt("miliSeconds", miliSeconds);
+        bundle.putLong("seconds", seconds);
     }
 }
